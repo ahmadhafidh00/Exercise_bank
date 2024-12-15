@@ -21,15 +21,51 @@
  */
 
 function sendItAll(arr) {
+  // Jika array tidak ada isinya, kembalikan pesan 'no batch detected'
+  if (!arr || arr.length === 0) {
+    return "no batch detected";
+  }
 
+  // Mendefinisikan peta kode bandara ke nama bandara
+  const bandaraMap = {
+    CGK: "Soekarno Hatta",
+    SRG: "Achmad Yani",
+    BDO: "Husein S.",
+    JOG: "Adisucipto",
+  };
+
+  // Membuat objek hasil yang akan menyimpan nama bandara sebagai kunci
+  let result = {};
+
+  // Iterasi setiap elemen dalam array input
+  arr.forEach((item) => {
+    // Pisahkan nama penerima dan kode bandara dari string item
+    const [name, code] = item.split("-");
+
+    // Periksa apakah kode bandara valid
+    if (bandaraMap[code]) {
+      const bandara = bandaraMap[code];
+
+      // Jika nama bandara belum ada di objek result, inisialisasi dengan array kosong
+      if (!result[bandara]) {
+        result[bandara] = [];
+      }
+
+      // Tambahkan nama penerima ke array nama bandara yang sesuai
+      result[bandara].push(name);
+    }
+  });
+
+  // Kembalikan objek yang telah dikelompokkan berdasarkan nama bandara
+  return result;
 }
 
-let batch1 = ['budi-CGK', 'bella-SRG', 'john-CGK', 'sastro-JOG']
+let batch1 = ["budi-CGK", "bella-SRG", "john-CGK", "sastro-JOG"];
 // {
-//     CGK: ['budi', 'john'],
-//     SRG: ['bella'],
-//     JOG: ['sastro']
+//   "Soekarno Hatta": ["budi", "john"],
+//   "Achmad Yani": ["bella"],
+//   "Adisucipto": ["sastro"]
 // }
 console.log(sendItAll(batch1));
 
-console.log(sendItAll()) // no batch detected
+console.log(sendItAll()); // no batch detected
